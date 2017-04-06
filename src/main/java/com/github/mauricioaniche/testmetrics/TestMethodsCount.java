@@ -4,6 +4,7 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MarkerAnnotation;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 
@@ -30,9 +31,23 @@ public class TestMethodsCount extends ASTVisitor implements Metric {
 		return super.visit(node);	
 	}
 	
+	public boolean visit(MethodDeclaration node) {
+		
+		boolean startsWithTest = node.getName().toString().startsWith("test");
+		// boolean fifthLetterIsCapitalized = node.getName().toString().length() > 4 && Character.isUpperCase(node.getName().toString().charAt(4));
+		if(startsWithTest) {
+			totalNumberOfTestMethods++;
+			return false;
+		}
+		
+		return super.visit(node);
+	}
+	
 	private void checkAnnotation(Annotation o) {
 		String annotation = o.getTypeName().toString();
-		if(annotation.equals("Test")) totalNumberOfTestMethods++;
+		if(annotation.equals("Test")) {
+			totalNumberOfTestMethods++;
+		}
 	}
 	
 	@Override

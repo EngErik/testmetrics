@@ -17,6 +17,16 @@ public class TestMethodsCountTest extends BaseTest {
 		Assert.assertEquals(2, a.getSpecific("test-methods"));
 
 	}
+	
+	@Test
+	public void countNumberOfMethodsWithTestPrefix() {
+		
+		CKReport report = ck().calculate(fixturesDir() + "/t8");
+		
+		CKNumber a = report.getByClassName("t8.SomeTest");
+		Assert.assertEquals(3, a.getSpecific("test-methods"));
+		
+	}
 
 	@Test
 	public void understandParametersInTestAnnotation() {
